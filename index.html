@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ANIME CART | Anime Wall Posters</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Poppins,sans-serif;background:#090b13;color:white}
+header{
+ display:flex;justify-content:space-between;align-items:center;
+ padding:18px 7%;background:#101321;position:sticky;top:0;z-index:10;
+ border-bottom:1px solid #25283a;gap:15px
+}
+.logo{font-size:25px;font-weight:800;color:#a78bfa}
+.logo span{color:#fff}
+nav{display:flex;gap:25px}
+nav a{color:#ddd;text-decoration:none;font-size:13px}
+nav a:hover{color:#a78bfa}
+.actions{display:flex;gap:10px;align-items:center}
+.search{width:170px;padding:10px 14px;border-radius:25px;border:1px solid #34364a;background:#191c2b;color:white;outline:none}
+.cart-btn,.primary{
+ background:#8b5cf6;color:white;border:0;padding:11px 17px;
+ border-radius:8px;cursor:pointer;font-weight:600
+}
+.hero{
+ margin:35px 7%;padding:55px 6%;border-radius:20px;
+ background:linear-gradient(110deg,#25164c,#111a35 65%,#38204d);
+ display:flex;align-items:center;justify-content:space-between;overflow:hidden;
+ min-height:340px
+}
+.hero h1{font-size:45px;line-height:1.2;margin:15px 0}
+.hero h1 span{color:#c4a7ff}
+.hero p{color:#c2bfd1;font-size:14px;line-height:1.8}
+.hero-art{font-size:125px;filter:drop-shadow(0 10px 25px #a78bfa66)}
+.tag{color:#c4a7ff;font-size:12px;letter-spacing:3px;font-weight:700}
+.section{padding:25px 7%}
+.heading{margin-bottom:23px}
+.heading h2{font-size:25px}
+.heading p{color:#888da5;font-size:12px;margin-top:5px}
+.categories{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:30px}
+.category{
+ background:#171a29;border:1px solid #303247;color:#ddd;
+ padding:10px 20px;border-radius:25px;cursor:pointer;font-size:12px
+}
+.category.active,.category:hover{background:#8b5cf6;color:white;border-color:#8b5cf6}
+.products{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.card{
+ background:#151827;border:1px solid #282c40;border-radius:13px;
+ padding:12px;transition:.3s
+}
+.card:hover{transform:translateY(-6px);border-color:#8b5cf6}
+.poster{
+ height:230px;border-radius:9px;position:relative;overflow:hidden;
+ display:flex;align-items:center;justify-content:center;flex-direction:column;
+ text-align:center;padding:15px;isolation:isolate
+}
+.poster:before{
+ content:"";position:absolute;inset:0;z-index:-1;
+ background:radial-gradient(circle at 50% 40%,#ffffff35,transparent 55%)
+}
+.poster .symbol{font-size:85px;filter:drop-shadow(0 8px 12px #0008)}
+.poster .poster-name{
+ font-size:21px;font-weight:800;letter-spacing:2px;
+ text-shadow:0 3px 8px #000
+}
+.poster small{font-size:9px;letter-spacing:4px;margin-top:8px}
+.heart{
+ position:absolute;right:10px;top:10px;width:33px;height:33px;
+ border:0;border-radius:50%;background:#171827dd;color:white;
+ cursor:pointer;font-size:18px
+}
+.card h3{font-size:14px;margin-top:13px}
+.card small{color:#9298ad;font-size:11px}
+.product-bottom{display:flex;justify-content:space-between;align-items:center;margin-top:13px}
+.price{font-size:16px;font-weight:700;color:#c4a7ff}
+.add{
+ background:#8b5cf6;color:white;border:0;padding:9px 12px;
+ border-radius:7px;cursor:pointer;font-size:11px;font-weight:600
+}
+.add:hover,.primary:hover,.cart-btn:hover{background:#7040dc}
+.banner{
+ margin:35px 7%;padding:35px;border-radius:15px;
+ background:linear-gradient(100deg,#47227d,#222047);
+ display:flex;justify-content:space-between;align-items:center
+}
+.banner h2{font-size:25px}
+.banner p{font-size:12px;color:#d4c9ed;margin-top:8px}
+.banner span{font-size:65px}
+footer{background:#101321;padding:35px 7%;text-align:center;margin-top:50px}
+footer h2{color:#a78bfa}
+footer p{font-size:12px;color:#888da5;margin-top:10px}
+
+/* Cart */
+.cart{
+ position:fixed;right:-420px;top:0;width:380px;max-width:90%;
+ height:100vh;background:#151827;z-index:30;padding:23px;
+ transition:.3s;overflow-y:auto;box-shadow:0 0 30px #0008
+}
+.cart.open{right:0}
+.cart-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:25px}
+.close{background:none;color:white;border:0;font-size:27px;cursor:pointer}
+.cart-item{display:flex;justify-content:space-between;gap:10px;padding:15px 0;border-bottom:1px solid #303247;font-size:12px}
+.qty button{background:#8b5cf6;color:white;border:0;padding:3px 8px;border-radius:4px;cursor:pointer}
+.total{display:flex;justify-content:space-between;margin-top:25px;font-size:19px;font-weight:700}
+.checkout{width:100%;margin-top:20px;padding:13px;background:#8b5cf6;color:white;border:0;border-radius:8px;cursor:pointer}
+.empty{text-align:center;color:#999;margin-top:40px}
+@media(max-width:900px){
+ .products{grid-template-columns:repeat(3,1fr)}
+ nav{display:none}
+}
+@media(max-width:600px){
+ header{padding:14px 4%}
+ .logo{font-size:19px}
+ .search{width:105px;font-size:10px}
+ .cart-btn{font-size:11px;padding:10px}
+ .hero{margin:20px 4%;padding:30px 6%;min-height:260px}
+ .hero h1{font-size:30px}
+ .hero-art{font-size:65px}
+ .products{grid-template-columns:repeat(2,1fr);gap:12px}
+ .poster{height:175px}
+ .poster .symbol{font-size:65px}
+ .poster .poster-name{font-size:15px}
+ .section{padding:20px 4%}
+ .banner{margin:20px 4%;padding:25px}
+ .banner h2{font-size:19px}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+ <div class="logo">ANIME<span>CART.</span></div>
+ <nav>
+  <a href="#">Home</a>
+  <a href="#collection">Collection</a>
+  <a href="#posters">Posters</a>
+  <a href="#footer">Contact</a>
+ </nav>
+ <div class="actions">
+  <input class="search" id="search" placeholder="Search posters...">
+  <button class="cart-btn" onclick="toggleCart()">🛒 <span id="count">0</span></button>
+ </div>
+</header>
+
+<section class="hero">
+ <div>
+  <div class="tag">WELCOME TO ANIME CART</div>
+  <h1>YOUR WALL.<br><span>YOUR ANIME WORLD.</span></h1>
+  <p>Bring your favourite anime-inspired worlds to life.<br>
+  Discover unique wall posters for your personal space.</p>
+  <button class="primary" style="margin-top:22px"
+  onclick="document.getElementById('posters').scrollIntoView({behavior:'smooth'})">
+  Explore Collection →
+  </button>
+ </div>
+ <div class="hero-art">⛩️ ⚔️</div>
+</section>
+
+<section class="section" id="collection">
+ <div class="heading">
+  <h2>Explore Collections</h2>
+  <p>Find your favourite poster style.</p>
+ </div>
+ <div class="categories" id="categories">
+  <button class="category active" onclick="filter('All',this)">All Posters</button>
+  <button class="category" onclick="filter('Action',this)">⚔️ Action</button>
+  <button class="category" onclick="filter('Fantasy',this)">🐉 Fantasy</button>
+  <button class="category" onclick="filter('Nature',this)">🌸 Nature</button>
+  <button class="category" onclick="filter('Dark',this)">🌑 Dark</button>
+ </div>
+</section>
+
+<section class="section" id="posters">
+ <div class="heading">
+  <h2>Trending Anime Posters</h2>
+  <p>20 exclusive anime-inspired wall poster designs.</p>
+ </div>
+ <div class="products" id="products"></div>
+</section>
+
+<section class="banner">
+ <div>
+  <h2>MAKE YOUR WALL LEGENDARY.</h2>
+  <p>Discover art that represents your anime passion.</p>
+ </div>
+ <span>🔥</span>
+</section>
+
+<div class="cart" id="cart">
+ <div class="cart-head">
+  <h2>Shopping Cart 🛒</h2>
+  <button class="close" onclick="toggleCart()">×</button>
+ </div>
+ <div id="cart-items"></div>
+ <div class="total">
+  <span>Total</span><span id="total">₹0</span>
+ </div>
+ <button class="checkout" onclick="checkout()">Proceed to Checkout</button>
+</div>
+
+<footer id="footer">
+ <h2>ANIME CART.</h2>
+ <p>Turn your walls into your anime universe.</p>
+ <p>© 2026 ANIME CART. All Rights Reserved.</p>
+</footer>
+
+<script>
+const posters=[
+ ["Shadow Warrior","Action","⚔️","#161b3e","#5b43b5"],
+ ["Dragon Spirit","Fantasy","🐉","#35152a","#b52d50"],
+ ["Sakura Dreams","Nature","🌸","#542d65","#dc78a8"],
+ ["Dark Phantom","Dark","👹","#090d20","#343b62"],
+ ["Thunder Hero","Action","⚡","#132a47","#1686bb"],
+ ["Moon Princess","Fantasy","🌙","#25204d","#8866cf"],
+ ["Forest Guardian","Nature","🌳","#103e37","#36a27c"],
+ ["Demon King","Dark","🔥","#431313","#a12c27"],
+ ["Samurai Soul","Action","🗡️","#302017","#b77735"],
+ ["Cosmic Legend","Fantasy","🌌","#101a48","#4943a9"],
+ ["Pink Horizon","Nature","🌺","#512c51","#d66d91"],
+ ["Night Hunter","Dark","🐺","#121b2a","#455d79"],
+ ["Blade Storm","Action","💥","#4b2020","#ce513f"],
+ ["Mystic Galaxy","Fantasy","🔮","#291849","#9456c7"],
+ ["Ocean Spirit","Nature","🌊","#123c53","#298eb5"],
+ ["Dark Eclipse","Dark","🌑","#161522","#594a78"],
+ ["Flame Master","Action","🔥","#4c1d12","#ed7732"],
+ ["Sky Dragon","Fantasy","🐲","#18344b","#398db0"],
+ ["Cherry Blossom","Nature","🌸","#71374e","#ec9ab9"],
+ ["Shadow Reaper","Dark","☠️","#171326","#7253a6"]
+];
+
+let cart=[];
+let wishlist=[];
+let currentCategory="All";
+
+const productArea=document.getElementById("products");
+
+function showProducts(){
+ let search=document.getElementById("search").value.toLowerCase();
+
+ let filtered=posters.map((p,i)=>({...p,id:i}))
+ .filter(p=>(currentCategory==="All"||p[1]===currentCategory))
+ .filter(p=>p[0].toLowerCase().includes(search));
+
+ productArea.innerHTML="";
+
+ if(!filtered.length){
+  productArea.innerHTML="<p>No posters found.</p>";
+  return;
+ }
+
+ filtered.forEach(p=>{
+  let price=149+(p.id*17)%151;
+  productArea.innerHTML+=`
+   <div class="card">
+    <div class="poster" style="background:linear-gradient(145deg,${p[3]},${p[4]})">
+     <button class="heart" onclick="wish(${p.id},this)">
+      ${wishlist.includes(p.id)?"♥":"♡"}
+     </button>
+     <div class="symbol">${p[2]}</div>
+     <div class="poster-name">${p[0].toUpperCase()}</div>
+     <small>ANIME CART • ORIGINAL ART</small>
+    </div>
+    <h3>${p[0]}</h3>
+    <small>${p[1]} Collection • A4 Poster</small>
+    <div class="product-bottom">
+     <span class="price">₹${price}</span>
+     <button class="add" onclick="addCart(${p.id})">+ Add to Cart</button>
+    </div>
+   </div>`;
+ });
+}
+
+function filter(category,button){
+ currentCategory=category;
+ document.querySelectorAll(".category").forEach(b=>b.classList.remove("active"));
+ button.classList.add("active");
+ showProducts();
+}
+
+document.getElementById("search").addEventListener("input",showProducts);
+
+function addCart(id){
+ let item=cart.find(p=>p.id===id);
+ if(item)item.qty++;
+ else cart.push({id,qty:1});
+ updateCart();
+}
+
+function updateCart(){
+ let area=document.getElementById("cart-items");
+ area.innerHTML="";
+ let total=0,count=0;
+
+ if(cart.length===0){
+  area.innerHTML='<div class="empty">Your cart is empty 🛒<br>Explore some posters!</div>';
+ }
+
+ cart.forEach(item=>{
+  let p=posters[item.id];
+  let price=149+(item.id*17)%151;
+  total+=price*item.qty;
+  count+=item.qty;
+
+  area.innerHTML+=`
+   <div class="cart-item">
+    <div>${p[2]} <b>${p[0]}</b><br>₹${price} × ${item.qty}</div>
+    <div class="qty">
+     <button onclick="changeQty(${item.id},-1)">−</button>
+     ${item.qty}
+     <button onclick="changeQty(${item.id},1)">+</button>
+    </div>
+   </div>`;
+ });
+
+ document.getElementById("count").innerText=count;
+ document.getElementById("total").innerText="₹"+total;
+}
+
+function changeQty(id,n){
+ let item=cart.find(p=>p.id===id);
+ if(!item)return;
+ item.qty+=n;
+ if(item.qty<=0)cart=cart.filter(p=>p.id!==id);
+ updateCart();
+}
+
+function wish(id,btn){
+ if(wishlist.includes(id)){
+  wishlist=wishlist.filter(x=>x!==id);
+  btn.innerText="♡";
+ }else{
+  wishlist.push(id);
+  btn.innerText="♥";
+ }
+}
+
+function toggleCart(){
+ document.getElementById("cart").classList.toggle("open");
+}
+
+function checkout(){
+ if(cart.length===0){
+  alert("Your cart is empty!");
+  return;
+ }
+ alert("Order summary: ₹"+document.getElementById("total").innerText.slice(1)+
+ "\nOnline checkout will be available after payment integration.");
+}
+
+showProducts();
+updateCart();
+</script>
+
+</body>
+  </html>
